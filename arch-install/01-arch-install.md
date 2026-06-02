@@ -40,6 +40,7 @@ exit
 
 > [!NOTE]
 > `device list` shows your wireless interface name. Replace `wlan0` with yours if it differs.
+>
 > Replace `YOUR_SSID` with your network name. Use quotes if it contains spaces: `station wlan0 connect "My Network"`
 
 Verify connection:
@@ -191,17 +192,27 @@ arch-chroot /mnt
 
 ### 3. Set Timezone
 
+Replace `YOUR_REGION/YOUR_CITY` with your location (e.g. `Europe/Warsaw`, `America/New_York`):
+
 ```bash
 ln -sf /usr/share/zoneinfo/YOUR_REGION/YOUR_CITY /etc/localtime
 hwclock --systohc
 ```
 
+> [!TIP]
+> To find your timezone: `timedatectl list-timezones | grep YOUR_CITY`
+
 ### 4. Set Locale
 
-Edit `/etc/locale.gen` and uncomment your locale (e.g. `en_US.UTF-8 UTF-8`):
+Open the locale file and uncomment your locale by removing the `#` at the beginning of the line (e.g. `en_US.UTF-8 UTF-8`):
 
 ```bash
 nano /etc/locale.gen
+```
+
+Generate the locale and set it as default:
+
+```bash
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 ```
@@ -217,24 +228,31 @@ echo "your-hostname" > /etc/hostname
 
 ### 6. Set Root Password
 
+The root account is the system administrator with full access to everything. Set a strong password for it:
+
 ```bash
 passwd
 ```
 
 ### 7. Create User
 
+Create a new user and add them to the `wheel` group (required for sudo access):
+
 ```bash
 useradd -m -G wheel -s /bin/bash your-username
 passwd your-username
 ```
 
-Enable sudo for the wheel group:
+> [!NOTE]
+> Replace `your-username` with your desired username. It should be lowercase, without spaces or special symbols.
+
+Enable sudo for the `wheel` group:
 
 ```bash
 EDITOR=nano visudo
 ```
 
-Find and uncomment the following line:
+Find and uncomment the following line by removing the `#`:
 
 ```
 %wheel ALL=(ALL:ALL) ALL
@@ -261,7 +279,19 @@ systemctl enable NetworkManager
 bootctl install
 ```
 
-Create a boot entry at `/boot/loader/entries/arch.conf`:
+Before creating the boot entry, get your root partition UUID:
+
+```bash
+lsblk -no UUID /dev/sdX2
+```
+
+Create a boot entry:
+
+```bash
+nano /boot/loader/entries/arch.conf
+```
+
+Add the following content, replacing `YOUR_ROOT_UUID` with the UUID from the previous step:
 
 ```
 title   Arch Linux
@@ -271,19 +301,19 @@ initrd  /initramfs-linux.img
 options root=UUID=YOUR_ROOT_UUID rw quiet
 ```
 
-> [!IMPORTANT]
-> The microcode (`-ucode.img`) line must come before the main initramfs line (`/initramfs-linux.img`). If reversed, the CPU patches will not be applied at boot.
-
 > [!NOTE]
 > If you installed Intel microcode, replace `/amd-ucode.img` with `/intel-ucode.img`.
 
-Get the UUID:
+> [!IMPORTANT]
+> The microcode line must come before the initramfs line. If reversed, CPU patches will not be applied at boot.
+
+Update the loader config to set the default boot entry and timeout:
 
 ```bash
-lsblk -no UUID /dev/sdX2
+nano /boot/loader/loader.conf
 ```
 
-Update loader config at `/boot/loader/loader.conf`:
+Add the following content:
 
 ```
 default arch.conf
