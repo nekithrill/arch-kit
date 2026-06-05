@@ -1,4 +1,0 @@
-nvidia
-nvidia-utils
-nvidia-prime
-nvidia-dkms

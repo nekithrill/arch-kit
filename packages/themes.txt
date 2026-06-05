@@ -1,9 +1,0 @@
-breeze
-kvantum
-
-# AUR themes stuff → see aur.txt:
-# adw-gtk-theme-git
-# darkly-bin
-# bibata-cursor-theme-bin
-# whitesur-icon-theme-git
-# breeze-plus

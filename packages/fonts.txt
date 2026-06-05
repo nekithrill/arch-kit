@@ -1,7 +1,0 @@
-ttf-jetbrains-mono-nerd
-
-# AUR fonts → see aur.txt:
-# ttf-rubik-vf
-# ttf-readex-pro
-# ttf-material-symbols-variable-git
-# otf-space-grotesk
