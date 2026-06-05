@@ -24,7 +24,7 @@ dotfiles/
 ├── 03-drivers-install/   # Graphics driver deployment (AMD / Nvidia profiles)
 ├── 04-post-install/      # System fixes, font configurations, and audio engines (Pipewire)
 ├── 05-hypr-starter/      # Universal graphical skeleton (Hyprland + Wayland baseline)
-├── 06-dotfiles/          # Personal deep-custom application configurations
+├── 06-hypr-custom/          # Personal deep-custom application configurations
 ├── docs/                 # Internal Knowledge Base & Step-by-step installation Wiki
 ├── scripts/              # Shared Bash helpers library (core automation modules)
 ├── install.sh            # Main interactive orchestrator (central installation wizard)
