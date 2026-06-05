@@ -18,7 +18,7 @@ The project follows a linear, human-readable workflow (01 → 06), prioritizing 
 ## 📂 Repository Structure
 
 ```text
-dotfiles/
+arch-kit/
 ├── 01-system-init/       # Base env initialization (pacman, AUR/yay, zsh, sudo setup)
 ├── 02-hardware-setup/    # Hardware-specific setup (common tools, PC vs. Laptop profiles)
 ├── 03-drivers-install/   # Graphics driver deployment (AMD / Nvidia profiles)
