@@ -1,5 +1,8 @@
 # 🛠️ Arch-kit
 
+> [!WARNING]
+> This project is currently under active development and has undergone minimal testing. Some features may be unstable or work unexpectedly.
+
 This repository is a modular Arch Linux installation toolkit designed as a simple, step-by-step system setup guide with optional automation via an interactive installer.
 
 It provides a clearly structured sequence of independent installation layers - from base system initialization to a fully configured Hyprland desktop environment and personal dotfiles.
