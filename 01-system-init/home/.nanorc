@@ -1,0 +1,13 @@
+set linenumbers
+set smooth
+set autoindent
+set tabsize 4
+set tabstospaces
+set constantshow
+set mouse
+
+# Syntax highlighting (includes most common file types)
+include "/usr/share/nano/*.nanorc"
+
+# Uncomment if nano-syntax-highlighting package is installed
+# include "/usr/share/nano/extra/*.nanorc"
