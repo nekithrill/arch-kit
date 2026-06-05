@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# scripts/system.sh — system and environment functions
+
+# Check that script is not running as root
+require_non_root() {
+    [[ "$EUID" -eq 0 ]] && die "Do not run this script as root"
+}
+
+# Keep sudo session alive in the background
+# Call once at the start of a long-running script
+sudo_keep_alive() {
+    sudo -v
+    while true; do
+        sudo -n true
+        sleep 60
+        kill -0 "$$" 2>/dev/null || exit
+    done &
+    KEEP_ALIVE_PID=$!
+    trap 'kill "$KEEP_ALIVE_PID" 2>/dev/null' EXIT
+}
+
+# Interactive prompt — returns selected option
+# Usage: RESULT=$(ask "Question:" "option1" "option2")
+ask() {
+    local prompt="$1"
+    shift
+    local options=("$@")
+
+    echo -e "${BOLD}$prompt${NC}"
+    for i in "${!options[@]}"; do
+        echo "  $((i+1))) ${options[$i]}"
+    done
+
+    local choice
+    while true; do
+        read -rp "Choice [1-${#options[@]}]: " choice
+        if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#options[@]} )); then
+            echo "${options[$((choice-1))]}"
+            return
+        fi
+        warn "Enter a number between 1 and ${#options[@]}"
+    done
+}
+
+# Enable and start systemd services
+enable_services() {
+    local services=("$@")
+    for svc in "${services[@]}"; do
+        log "Enabling service: $svc"
+        sudo systemctl enable --now "$svc"
+    done
+}
