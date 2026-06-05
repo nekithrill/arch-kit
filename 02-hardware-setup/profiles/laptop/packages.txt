@@ -1,0 +1,20 @@
+# =============================================================================
+# hardware-setup/profiles/laptop/packages.txt
+#
+# Syntax:
+#   package-name       — installed via pacman
+#   AUR:package-name   — installed via yay (AUR)
+#   # comment          — ignored
+# =============================================================================
+
+# Power Management
+power-profiles-daemon
+acpi
+acpid
+acpi_call-dkms
+
+# Display & Backlight
+brightnessctl
+
+# Touchpad / Input
+libinput

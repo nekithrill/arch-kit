@@ -1,0 +1,15 @@
+# 02-hardware-setup/packages.txt
+# Syntax: package-name (pacman) | AUR:package-name (yay) | # comment (ignored)
+
+
+# Bluetooth
+bluez
+bluez-utils
+libspa-0.2-bluetooth
+
+# Sound (Pipewire stack)
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
