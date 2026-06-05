@@ -1,0 +1,51 @@
+/* =============================================================================
+hypr-starter/config/wlogout/style.css
+Visual styling and layout constraints for the session manager menu
+============================================================================= */
+
+* {
+	font-family: 'JetBrainsMono Nerd Font', sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+window {
+	background-color: rgba(
+		30,
+		30,
+		46,
+		0.75
+	); /* Dark translucent overlay backdrop */
+}
+
+button {
+	color: #cdd6f4;
+	background-color: #313244;
+	border: 2px solid #45475a;
+	border-radius: 12px;
+	margin: 15px;
+	padding: 20px;
+	transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hover mechanisms matching your primary active cyan color schemes */
+button:focus,
+button:hover {
+	background-color: #33ccff;
+	color: #11111b;
+	border-color: #00ff99;
+}
+
+/* Layout block structure for button placement grid alignment */
+#lock {
+	margin-right: 0px;
+}
+#logout {
+	margin-left: 0px;
+}
+#shutdown {
+	margin-right: 0px;
+}
+#reboot {
+	margin-left: 0px;
+}

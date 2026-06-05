@@ -1,0 +1,62 @@
+# hypr-starter/packages.txt
+# Syntax: package-name (pacman) | AUR:package-name (yay) | # comment (ignored)
+
+# Window Manager & Core Ecosystem
+hyprland
+hyprpaper
+hypridle
+hyprlock
+AUR:hyprpicker
+hyprsunset
+
+# Status Bar & Notifications
+waybar
+dunst
+
+# Application Launcher & Session Manager
+fuzzel
+AUR:wlogout
+
+# Wayland Utilities & Portals
+xdg-desktop-portal-hyprland
+xwayland
+wl-clipboard
+cliphist
+playerctl
+pavucontrol
+
+# Screenshots & Screen Capture
+grim
+slurp
+AUR:hyprshot
+
+# Polkit Authentication Agent
+hyprpolkitagent
+
+# Network & Bluetooth Applets
+network-manager-applet
+blueman
+
+# File Management
+thunar
+yazi
+
+# Themes, Icons & Cursors
+AUR:matugen-bin
+papirus-icon-theme
+adwaita-cursors
+nwg-look
+
+# Qt Theme Configuration Engines
+qt5ct
+qt6ct
+kvantum
+
+# Terminal Emulator
+kitty
+
+# System Location (Required for hyprsunset / geoclue)
+geoclue
+
+# GTK Core Schemas
+gsettings-desktop-schemas

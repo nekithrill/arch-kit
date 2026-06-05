@@ -1,0 +1,9 @@
+# =============================================================================
+# hypr-starter/config/Kvantum/kvantum.kvconfig
+# Forces Kvantum theme engine to use a modern dark style for all Qt apps
+# =============================================================================
+
+[General]
+# Sets the core theme to KvDark (standard modern flat dark theme)
+# Alternatively, you can change this to "CatppuccinMocha" in your custom layer later
+theme=KvDark
