@@ -68,5 +68,5 @@ element-icon {
 
 element-text {
     text-color:         inherit;
-    highlight:          bold @urgent;
+    highlight:          bold #f38ba8;
 }
