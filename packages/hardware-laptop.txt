@@ -1,0 +1,14 @@
+# Hardware setup - brightness, power, touchpad
+# Syntax: package-name (pacman) | AUR:package-name (yay) | # comment (ignored)
+
+# Power Management
+power-profiles-daemon
+acpi
+acpid
+acpi_call-dkms
+
+# Display & Backlight
+brightnessctl
+
+# Touchpad / Input
+libinput
