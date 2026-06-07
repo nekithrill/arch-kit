@@ -1,8 +1,0 @@
-# 04-post-install/packages.txt
-# Syntax: package-name (pacman) | AUR:package-name (yay) | # comment (ignored)
-
-# Firewall
-ufw
-
-# Mirror management
-reflector

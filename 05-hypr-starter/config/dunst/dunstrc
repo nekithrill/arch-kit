@@ -1,9 +1,0 @@
-[global]
-font = JetBrainsMono Nerd Font 10
-frame_width = 2
-frame_color = #33ccff
-background = #1e1e2e
-foreground = #cdd6f4
-corner_radius = 10
-offset = 10x10
-position = top-right
