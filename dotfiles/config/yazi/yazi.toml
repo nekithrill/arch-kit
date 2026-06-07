@@ -1,0 +1,44 @@
+# =============================================================================
+# hypr-starter/config/yazi/yazi.toml
+# Core settings for terminal file manager — enables media hooks and shell rules
+# =============================================================================
+
+[manager]
+ratio          = [ 1, 4, 3 ]
+sort_by        = "name"
+sort_sensitive = false
+sort_reverse   = false
+sort_dir_first = true
+show_hidden    = true
+show_symlink   = true
+
+[opener]
+# Connect file extensions to the core packages installed in your layer packs
+image = [
+    { run = 'imv "$@"', desc = "View Image with IMV", block = false }
+]
+video = [
+    { run = 'mpv "$@"', desc = "Play Video with MPV", block = true }
+]
+text = [
+    { run = 'nano "$@"', desc = "Edit Text with Nano", block = false }
+]
+
+[open]
+rules = [
+    { name = "*.txt", use = "text" },
+    { mime = "image/*", use = "image" },
+    { mime = "video/*", use = "video" }
+]
+
+[preview]
+tab_size        = 4
+max_width       = 600
+max_height      = 900
+image_filter    = "triangle"
+image_quality   = 75
+sixel_fraction  = 15
+# Uses internal loop mechanisms to safely pre-cache image previews on high-refresh laptop screens
+ueberzug_scale  = 1
+ueberzug_x      = 0
+ueberzug_y      = 0

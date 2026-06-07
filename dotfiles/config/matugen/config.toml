@@ -1,0 +1,34 @@
+[config]
+version_check = false
+
+[templates.hyprland]
+input_path = '~/.config/matugen/templates/hyprland/themes.lua'
+output_path = '~/.config/hypr/hyprland/themes.lua'
+
+[templates.hyprlock]
+input_path = '~/.config/matugen/templates/hyprland/hyprlock-colors.conf'
+output_path = '~/.config/hypr/hyprlock-colors.conf'
+
+[templates.waybar]
+input_path = '~/.config/matugen/templates/waybar/colors.css'
+output_path = '~/.config/waybar/colors.css'
+
+[templates.dunst]
+input_path = '~/.config/matugen/templates/dunst/colors.conf'
+output_path = '~/.config/dunst/colors.conf'
+
+[templates.rofi]
+input_path  = '~/.config/matugen/templates/rofi/colors.rasi'
+output_path = '~/.config/rofi/colors.rasi'
+
+[templates.kitty]
+input_path = '~/.config/matugen/templates/kitty/colors.conf'
+output_path = '~/.config/kitty/colors.conf'
+
+[templates.gtk3]
+input_path = '~/.config/matugen/templates/gtk-3.0/gtk.css'
+output_path = '~/.config/gtk-3.0/gtk.css'
+
+[templates.gtk4]
+input_path = '~/.config/matugen/templates/gtk-4.0/gtk.css'
+output_path = '~/.config/gtk-4.0/gtk.css'
