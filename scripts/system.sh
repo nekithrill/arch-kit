@@ -3,7 +3,9 @@
 
 # Check that script is not running as root
 require_non_root() {
-    [[ "$EUID" -eq 0 ]] && die "Do not run this script as root"
+    if [[ "$EUID" -eq 0 ]]; then
+        die "Do not run this script as root"
+    fi
 }
 
 # Keep sudo session alive in the background

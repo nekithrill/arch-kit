@@ -9,7 +9,7 @@
 set -euo pipefail
 
 ARCH_INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$ARCH_INSTALL_DIR/.." && pwd)"
+ROOT_DIR="$ARCH_INSTALL_DIR"
 STEPS_DIR="$ARCH_INSTALL_DIR/steps"
 
 source "$ROOT_DIR/scripts/main.sh"
@@ -32,7 +32,12 @@ done
 
 # --- Interactive selection ---------------------------------------------------
 
-header "ARCH-KIT INSTALLER"
+banner "$BLUE" << 'EOF'
+   ___           __           __    _ __      _          __       ____       
+  / _ | ________/ /    ____  / /__ (_) /_    (_)__  ___ / /____ _/ / /__ ____
+ / __ |/ __/ __/ _ \  /___/ /  '_// / __/   / / _ \(_-</ __/ _ `/ / / -_) __/
+/_/ |_/_/  \__/_//_/       /_/\_\/_/\__/   /_/_//_/___/\__/\_,_/_/_/\__/_/   
+EOF
 
 [[ -z "$DEVICE" ]]  && DEVICE=$(ask  "Device type:"  "desktop" "laptop")
 [[ -z "$DRIVERS" ]] && DRIVERS=$(ask "GPU drivers:"  "amd" "nvidia" "amd-nvidia" "none")
@@ -68,11 +73,10 @@ run_step() {
     bash "$script"
 }
 
-run_step "base"
-run_step "hardware"
-run_step "drivers"
-run_step "postinstall"
-run_step "hyprland"
+run_step "01-system-init"
+run_step "02-hardware"
+run_step "03-drivers"
+run_step "04-postinstall"
 
 
 # --- Done --------------------------------------------------------------------

@@ -22,15 +22,12 @@ The project follows a linear, human-readable workflow (01 → 04), prioritizing 
 
 ```text
 arch-kit/
-├── steps/
-│   ├── base.sh          # Base env initialization (pacman, AUR/yay, zsh, sudo setup)
-│   ├── hardware.sh      # Hardware-specific setup (common tools, PC vs. Laptop profiles)
-│   ├── drivers.sh       # Graphics driver deployment (AMD / Nvidia profiles)
-│   └── postinstall.sh   # System fixes, font configurations, and audio engines (Pipewire)
-├── docs/                # Internal Knowledge Base & Step-by-step installation Wiki
-├── scripts/             # Shared Bash helpers library (core automation modules)
-├── install.sh           # Main interactive orchestrator (central installation wizard)
-└── update.sh            # Fast configuration synchronization and package updater
+├── steps/          # Sequentially numbered deployment scenarios (01 -> 04)
+├── scripts/        # Shared Bash helpers library (colors, wrappers, utilities)
+├── packages/       # Raw declarative text files with package lists per profile
+├── docs/           # Mirrored technical wiki documentation for each step
+├── install.sh      # Interactive central installation wizard
+└── update.sh       # Fast configuration and package sync utility
 ```
 
 ---

@@ -4,9 +4,16 @@
 set -euo pipefail
 
 STEP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="${ROOT_DIR:-$(cd "$STEP_DIR/../.." && pwd)}"
+ROOT_DIR="${ROOT_DIR:-$(cd "$STEP_DIR/.." && pwd)}"
 
 source "$ROOT_DIR/scripts/main.sh"
+
+banner "$ORANGE" << 'EOF'
+   ___      _                
+  / _ \____(_)  _____ _______
+ / // / __/ / |/ / -_) __(_-<
+/____/_/ /_/|___/\__/_/ /___/
+EOF
 
 # --- Skip if no drivers ------------------------------------------------------
 

@@ -4,9 +4,16 @@
 set -euo pipefail
 
 STEP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="${ROOT_DIR:-$(cd "$STEP_DIR/../.." && pwd)}"
+ROOT_DIR="${ROOT_DIR:-$(cd "$STEP_DIR/.." && pwd)}"
 
 source "$ROOT_DIR/scripts/main.sh"
+
+banner "$ORANGE" << 'EOF'
+   __ __            __                   
+  / // /__ ________/ /    _____ ________ 
+ / _  / _ `/ __/ _  / |/|/ / _ `/ __/ -_)
+/_//_/\_,_/_/  \_,_/|__,__/\_,_/_/  \__/ 
+EOF
 
 # --- Common hardware packages ------------------------------------------------
 
