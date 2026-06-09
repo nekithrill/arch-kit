@@ -16,7 +16,7 @@ success() { echo -e "${GREEN}${BOLD}[+]${NC} $*"; }
 warn()    { echo -e "${YELLOW}${BOLD}[!]${NC} $*"; }
 error()   { echo -e "${RED}${BOLD}[-]${NC} $*"; }
 die()     { error "$*"; exit 1; }
-header()  { echo -e "\n${BLUE}${BOLD}[>] $* ${NC}\n"; }
+header()  { echo -e "\n${PURPLE}${BOLD}[>] $* ${NC}\n"; }
 
 # Usage: banner "$BLUE" << 'EOF'
 #   _  _  ___  __  __ ___
