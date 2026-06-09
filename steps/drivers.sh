@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-# arch-install/steps/drivers.sh — GPU drivers + NVIDIA kernel config
+# steps/drivers.sh - GPU drivers + NVIDIA kernel config
 
 set -euo pipefail
 
-STEP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="${ROOT_DIR:-$(cd "$STEP_DIR/.." && pwd)}"
+ROOT_DIR="${ROOT_DIR:-$(cd "$(dirname "${BASH_SOURCE}")/.." && pwd)}"
 
 source "$ROOT_DIR/scripts/main.sh"
 
@@ -15,16 +14,23 @@ banner "$ORANGE" << 'EOF'
 /____/_/ /_/|___/\__/_/ /___/
 EOF
 
+# --- Fallback for DRIVERS var ------------------------------------------------
+
+if [[ -z "${DRIVERS:-}" ]]; then
+    log "Running in standalone mode. Detecting GPU profile..."
+    DRIVERS=$(ask "Select GPU drivers for this system:" "amd" "nvidia" "amd-nvidia" "intel-nvidia" "none")
+fi
+
 # --- Skip if no drivers ------------------------------------------------------
 
-if [[ "${DRIVERS:-}" == "none" ]]; then
+if [[ "$DRIVERS" == "none" ]]; then
     log "No drivers selected — skipping"
     exit 0
 fi
 
 # --- Package selection -------------------------------------------------------
 
-case "${DRIVERS:-}" in
+case "$DRIVERS" in
     amd)
         PKG_FILE="$ROOT_DIR/packages/gpu-amd.txt"
         IS_NVIDIA=false
@@ -37,10 +43,21 @@ case "${DRIVERS:-}" in
         PKG_FILE="$ROOT_DIR/packages/gpu-amd-nvidia.txt"
         IS_NVIDIA=true
         ;;
+    intel-nvidia)
+        PKG_FILE="$ROOT_DIR/packages/gpu-intel-nvidia.txt"
+        IS_NVIDIA=true
+        ;;
     *)
         die "Unknown driver profile: ${DRIVERS}"
         ;;
 esac
+
+# --- Prevent open-source driver conflicts ------------------------------------
+
+if [[ "$IS_NVIDIA" == "true" ]]; then
+    log "Checking for open-source NVIDIA driver conflicts..."
+    sudo pacman -Rdd --noconfirm xf86-video-nouveau 2>/dev/null || true
+fi
 
 install_packages "$PKG_FILE"
 
@@ -86,11 +103,9 @@ if [[ "$IS_NVIDIA" == "true" ]]; then
         else
             success "GRUB already has nvidia_drm.modeset=1"
         fi
-
     else
         warn "Bootloader not detected — add 'nvidia_drm.modeset=1' to kernel parameters manually"
     fi
-
 fi
 
 success "Drivers step complete"
