@@ -1,4 +1,4 @@
-# 01 - System Initialization
+# System Initialization
 
 This layer sets up the foundational user environment on top of a fresh Arch Linux installation. It installs core utilities, configures the shell, sets up the AUR helper, and links base dotfiles.
 
@@ -10,83 +10,76 @@ This layer sets up the foundational user environment on top of a fresh Arch Linu
 - Updates the Arch Linux keyring
 - Installs `yay` as the AUR helper
 - Installs base packages
-- Sets up `zsh` with `oh-my-zsh`
-- Links base dotfiles and configs
 
 ## Automated Setup
 
 ```bash
-./01-system-init/install.sh
+./steps/system-init.sh
 ```
 
 ## Manual Setup
 
-### 1. Update Keyring
+### 1. Enable multilib
 
-Before installing anything, update the package signing keys to avoid signature errors:
+Open the pacman configuration file in a text editor:
 
 ```bash
-sudo pacman -Sy archlinux-keyring
+sudo nano /etc/pacman.conf
 ```
 
-### 2. Install yay
+Scroll down to the bottom, find the `[multilib]` section, and uncomment it by removing the `#` symbol from both lines so it looks like this:
 
-`yay` is an AUR helper that extends `pacman` with support for user-contributed packages:
+```ini
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+Save the changes (`Ctrl+O`, then `Enter`) and close the editor (`Ctrl+X`). Finally, update your package databases and system:
 
 ```bash
-sudo pacman -S --needed git base-devel
+sudo pacman -Syu
+```
+
+### 2. Update Keyring
+
+Update the package signing keys to avoid signature verification errors:
+
+```bash
+sudo pacman -S archlinux-keyring
+```
+
+### 3. Install yay
+
+`yay` is an AUR helper. To build it, you first need `git` and development tools (`base-devel`):
+
+```bash
+sudo pacman -S --needed --noconfirm git base-devel
 git clone https://aur.archlinux.org/yay.git
 cd yay && makepkg -si --noconfirm
 cd .. && rm -rf yay
 ```
 
-### 3. Install Base Packages
+### 4. Install Base Packages
 
-**System core:** `base-devel`, `wget`, `openssh`, `unzip`, `zip`, `p7zip`, `unrar`, `man-db`, `man-pages`
+**System core:** `dkms`, `wget`, `openssh`, `unzip`, `zip`, `p7zip`, `man-db`, `man-pages`
 
-**File system:** `dosfstools`, `exfatprogs`, `udisks2`, `smartmontools`
-
-**Shell:** `zsh`
+**File system:** `dosfstools`, `exfatprogs`, `udisks2`
 
 **Fonts:** `ttf-jetbrains-mono-nerd`, `noto-fonts`, `noto-fonts-emoji`, `noto-fonts-cjk`, `fontconfig`
 
-**CLI utilities:** `eza`, `bat`, `fd`, `ripgrep`, `fzf`, `btop`, `jq`, `bc`
+**CLI utilities:** `eza`, `bat`, `fd`, `ripgrep`, `fzf`, `btop`, `jq`
 
 **Media:** `mpv`, `imv`
 
 **System utilities:** `gnome-keyring`, `xdg-user-dirs`, `xdg-desktop-portal-gtk`, `xdg-utils`, `upower`, `timeshift`
 
 ```bash
-sudo pacman -S --needed base-devel wget openssh unzip zip p7zip unrar \
-    man-db man-pages dosfstools exfatprogs udisks2 smartmontools \
+sudo pacman -S --needed dkms wget openssh unzip zip p7zip unrar \
+    man-db man-pages dosfstools exfatprogs udisks2 \
     zsh ttf-jetbrains-mono-nerd noto-fonts noto-fonts-emoji noto-fonts-cjk fontconfig \
-    eza bat fd ripgrep fzf btop jq bc mpv imv \
+    eza bat fd ripgrep fzf btop jq mpv imv \
     gnome-keyring xdg-user-dirs xdg-desktop-portal-gtk xdg-utils upower timeshift
 ```
-
-### 4. Install oh-my-zsh
-
-```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-```
-
-### 5. Set zsh as Default Shell
-
-```bash
-sudo chsh -s "$(command -v zsh)" "$USER"
-```
-
-> [!NOTE]
-> Log out and back in for the shell change to take effect.
-
-### 6. Link Dotfiles
-
-```bash
-./01-system-init/install.sh --links-only
-```
-
-> [!TIP]
-> The automated script handles symlinking automatically. If running manually, link `config/` to `~/.config/` and `home/` dotfiles to `~/`.
 
 ## Installed CLI Tools Reference
 
@@ -99,4 +92,3 @@ sudo chsh -s "$(command -v zsh)" "$USER"
 | `fzf`     | —        | Fuzzy finder for terminal                     |
 | `btop`    | `top`    | Resource monitor with a clean UI              |
 | `jq`      | —        | JSON processor for scripts                    |
-| `bc`      | —        | Terminal calculator                           |
