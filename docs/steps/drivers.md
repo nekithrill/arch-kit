@@ -1,9 +1,9 @@
-# 03 - Drivers Installation
+# Drivers Installation
 
-This layer installs GPU drivers based on your hardware. The install script automatically selects the correct driver profile - AMD, NVIDIA, or hybrid AMD+NVIDIA.
+This layer installs GPU drivers based on your hardware. The install script automatically selects the correct driver profile - AMD, NVIDIA, or hybrid setups.
 
 > [!NOTE]
-> This step assumes you have completed [02 - Hardware Setup](./02-hardware-setup.md).
+> This step assumes you have completed [Hardware Setup](./hardware.md).
 
 ## What This Layer Does
 
@@ -14,12 +14,14 @@ This layer installs GPU drivers based on your hardware. The install script autom
 
 ## Automated Setup
 
+If running this step as part of the main installer, it will respect your global device choices. To run this step completely standalone:
+
 ```bash
-./03-drivers-install/install.sh
+./steps/drivers.sh
 ```
 
 > [!NOTE]
-> The script will ask you to select your GPU configuration: `amd`, `nvidia`, or `amd + nvidia (hybrid)`.
+> If executed standalone, the script will interactively ask you to select your GPU configuration: `amd`, `nvidia`, `amd-nvidia`, `intel-nvidia`, or `none`.
 
 ## Manual Setup
 
@@ -60,7 +62,7 @@ nvidia_drm.modeset=1
 
 ### AMD + NVIDIA (Hybrid)
 
-Install both AMD and NVIDIA packages:
+Install both AMD and NVIDIA packages along with the graphics switcher:
 
 ```bash
 sudo pacman -S --needed mesa vulkan-radeon libva-mesa-driver mesa-vdpau \
@@ -73,6 +75,18 @@ yay -S --needed libva-nvidia-driver envycontrol
 > [!TIP]
 > On hybrid systems, Hyprland renders on the AMD iGPU by default. To run a specific application on the NVIDIA GPU use: `prime-run <application>`
 
+### Intel + NVIDIA (Hybrid)
+
+Install both Intel and NVIDIA packages along with the graphics switcher:
+
+```bash
+sudo pacman -S --needed mesa vulkan-intel intel-media-driver \
+    lib32-mesa lib32-vulkan-intel \
+    nvidia-dkms nvidia-utils nvidia-prime lib32-nvidia-utils opencl-nvidia \
+    vulkan-icd-loader lib32-vulkan-icd-loader libva libva-utils
+yay -S --needed libva-nvidia-driver envycontrol
+```
+
 > [!TIP]
 > `envycontrol` allows switching between integrated, dedicated, and hybrid GPU modes system-wide: `sudo envycontrol --switch integrated`
 
@@ -80,9 +94,11 @@ yay -S --needed libva-nvidia-driver envycontrol
 
 | Package               | Profile | Description                                       |
 | --------------------- | ------- | ------------------------------------------------- |
-| `mesa`                | AMD     | OpenGL and Vulkan implementation                  |
+| `mesa`                | Common  | OpenGL and Vulkan implementation core             |
 | `vulkan-radeon`       | AMD     | Vulkan driver for AMD                             |
 | `libva-mesa-driver`   | AMD     | Hardware video decode for AMD                     |
+| `vulkan-intel`        | Intel   | Vulkan driver for Intel                           |
+| `intel-media-driver`  | Intel   | Hardware video decode for Intel                   |
 | `nvidia-dkms`         | NVIDIA  | NVIDIA kernel module (rebuilds on kernel updates) |
 | `nvidia-prime`        | Hybrid  | NVIDIA PRIME render offload support               |
 | `opencl-nvidia`       | NVIDIA  | OpenCL support for NVIDIA                         |
