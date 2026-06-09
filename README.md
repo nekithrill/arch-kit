@@ -16,21 +16,17 @@ The project follows a linear, human-readable workflow (01 → 04), prioritizing 
 >
 > Hardware differences and configuration choices may require manual adjustments. Always review scripts before execution.
 
----
-
 ## 📂 Repository Structure
 
 ```text
 arch-kit/
-├── steps/          # Sequentially numbered deployment scenarios (01 -> 04)
+├── steps/          # Sequentially deployment scenario
 ├── scripts/        # Shared Bash helpers library (colors, wrappers, utilities)
 ├── packages/       # Raw declarative text files with package lists per profile
 ├── docs/           # Mirrored technical wiki documentation for each step
 ├── install.sh      # Interactive central installation wizard
 └── update.sh       # Fast configuration and package sync utility
 ```
-
----
 
 ## 📋 Prerequisites & Warning
 
@@ -43,8 +39,6 @@ arch-kit/
 > Please follow our detailed step-by-step **[Arch Linux Installation Manual](docs/arch-install.md)** to handle your disk layout, formatting, `pacstrap`, and chroot configuration safely and manually.
 >
 > Once you have successfully booted into your fresh, clean Arch Linux installation as a normal user with `sudo` privileges, you can proceed to the automation wizard.
-
----
 
 ## 🚀 Getting Started
 
@@ -65,8 +59,6 @@ chmod +x install.sh
 2. **System Only (01-02):** Installs the core environment and hardware tools, skipping driver configuration.
 3. **Manual Mode:** Drops into a sub-menu allowing you to explicitly select and run a single standalone layer of your choosing.
 
----
-
 ## 🔄 Keeping System Updated
 
 ```bash
@@ -79,13 +71,9 @@ chmod +x install.sh
 > [!NOTE]
 > **Under the Hood:** The sync engine executes a full rolling package upgrade (`pacman`/`yay`) and automatically scans all `packages.txt` files across layers `01` to `04` to install newly added dependencies.
 
----
-
 ## 📖 Documentation
 
 👉 **[Explore the Repository Wiki](docs/README.md)**
-
----
 
 ## 🛠️ Automation Architecture (`scripts/` folder)
 
