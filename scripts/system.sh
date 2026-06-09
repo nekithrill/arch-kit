@@ -22,25 +22,24 @@ sudo_keep_alive() {
 }
 
 # Interactive prompt — returns selected option
-# Usage: RESULT=$(ask "Question:" "option1" "option2")
 ask() {
     local prompt="$1"
     shift
     local options=("$@")
 
-    echo -e "${BOLD}$prompt${NC}"
+    echo -e "${BOLD}$prompt${NC}" >&2
     for i in "${!options[@]}"; do
-        echo "  $((i+1))) ${options[$i]}"
+        echo "  $((i+1))) ${options[$i]}" >&2
     done
 
     local choice
     while true; do
-        read -rp "Choice [1-${#options[@]}]: " choice
+        read -rp "Choice [1-${#options[@]}]: " choice <&2 || read -rp "Choice [1-${#options[@]}]: " choice
         if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#options[@]} )); then
             echo "${options[$((choice-1))]}"
             return
         fi
-        warn "Enter a number between 1 and ${#options[@]}"
+        warn "Enter a number between 1 and ${#options[@]}" >&2
     done
 }
 
