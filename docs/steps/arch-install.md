@@ -117,7 +117,7 @@ w
 ```
 
 > [!NOTE]
-> This guide uses a clean **EXT4** layout. If you decide to switch to **Btrfs** in the future, you can adapt these steps later.
+> This guide covers two filesystem options: **EXT4** (simpler, stable default) and **Btrfs** (compression, snapshots via `timeshift`). Choose one and follow that path through the Format and Mount sections.
 
 > [!TIP]
 > This layout has no swap partition. If you need swap (for hibernation or low RAM systems), you can either add a dedicated swap partition before root, or create a swapfile after installation - the swapfile approach is simpler and can be done at any time.
@@ -133,18 +133,43 @@ mkfs.fat -F 32 /dev/sdX1
 > [!IMPORTANT]
 > The EFI partition must be formatted as FAT32. The UEFI specification cannot read EXT4 or NTFS at firmware initialization stage.
 
-**Root partition (EXT4)**
+#### EXT4
 
 ```bash
 mkfs.ext4 /dev/sdX2
 ```
 
+#### Btrfs
+
+```bash
+mkfs.btrfs /dev/sdX2
+
+# Mount temporarily to create subvolumes
+mount /dev/sdX2 /mnt
+btrfs subvolume create /mnt/@
+btrfs subvolume create /mnt/@home
+btrfs subvolume create /mnt/@snapshots
+umount /mnt
+```
+
+> [!NOTE]
+> The `@snapshots` subvolume is required by `timeshift` which is installed in a later step.
+
 ### 6. Mount Partitions
 
-Mount the newly formatted EXT4 partitions into the live environment:
+#### EXT4
 
 ```bash
 mount /dev/sdX2 /mnt
+mount --mkdir /dev/sdX1 /mnt/boot
+```
+
+#### Btrfs
+
+```bash
+mount -o subvol=@,compress=zstd,noatime /dev/sdX2 /mnt
+mount --mkdir -o subvol=@home,compress=zstd,noatime /dev/sdX2 /mnt/home
+mount --mkdir -o subvol=@snapshots,compress=zstd,noatime /dev/sdX2 /mnt/.snapshots
 mount --mkdir /dev/sdX1 /mnt/boot
 ```
 
@@ -154,7 +179,7 @@ mount --mkdir /dev/sdX1 /mnt/boot
 
 ```bash
 pacstrap -K /mnt \
-  base linux linux-firmware linux-headers \
+  base base-devel linux linux-firmware linux-headers \
   networkmanager nano sudo git curl \
   YOUR_CPU_UCODE
 ```
@@ -306,6 +331,13 @@ options root=UUID=YOUR_ROOT_UUID rw quiet
 
 > [!IMPORTANT]
 > The microcode line must come before the initramfs line. If reversed, CPU patches will not be applied at boot.
+
+> [!NOTE]
+> **Btrfs only:** append `rootflags=subvol=@` to the `options` line, otherwise the system will not boot:
+>
+> ```
+> options root=UUID=YOUR_ROOT_UUID rw quiet rootflags=subvol=@
+> ```
 
 Update the loader config to set the default boot entry and timeout:
 
