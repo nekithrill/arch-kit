@@ -1,4 +1,4 @@
-# Drivers install - AMD iGPU + NVIDIA dGPU (hybrid)
+# packages/gpu-amd-nvidia.txt - GPU drivers install (AMD iGPU + NVIDIA dGPU (hybrid))
 # Syntax: package-name (pacman) | AUR:package-name (yay) | # comment (ignored)
 
 # AMD

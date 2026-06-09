@@ -1,8 +1,8 @@
-# 01-system-init/packages.txt
+# packages/system-init.txt - basic system packages
 # Syntax: package-name (pacman) | AUR:package-name (yay) | # comment (ignored)
 
 # System Core
-base-devel
+dkms
 wget
 openssh
 unzip
@@ -15,9 +15,6 @@ man-pages
 dosfstools
 exfatprogs
 udisks2
-
-# Shell
-zsh
 
 # Fonts
 ttf-jetbrains-mono-nerd

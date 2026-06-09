@@ -1,14 +1,14 @@
-# Hardware setup - bluetooth, audio
+# packages/hardware.txt - hardware setup (bluetooth, audio)
 # Syntax: package-name (pacman) | AUR:package-name (yay) | # comment (ignored)
 
+# Drive diagnostics
 smartmontools
 
 # Bluetooth
 bluez
 bluez-utils
-libspa-0.2-bluetooth
 
-# Sound (Pipewire stack)
+# Audio (Pipewire)
 pipewire
 pipewire-alsa
 pipewire-pulse

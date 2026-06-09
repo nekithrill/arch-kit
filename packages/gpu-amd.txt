@@ -1,4 +1,4 @@
-# Drivers install - AMD GPU
+# packages/gpu-amd.txt - GPU drivers install (AMD GPU)
 # Syntax: package-name (pacman) | AUR:package-name (yay) | # comment (ignored)
 
 # AMD

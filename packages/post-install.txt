@@ -1,4 +1,4 @@
-# 04-post-install/packages.txt
+# packages/post-install.txt
 # Syntax: package-name (pacman) | AUR:package-name (yay) | # comment (ignored)
 
 # Firewall
