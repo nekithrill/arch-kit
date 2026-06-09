@@ -1,36 +1,20 @@
 #!/usr/bin/env bash
 # =============================================================================
-# arch-install/install.sh — orchestrator
+# install.sh — orchestrator
 # Usage:
-#   ./arch-install/install.sh
-#   ./arch-install/install.sh --device laptop --drivers amd
+#   ./install.sh
+#   ./install.sh --device laptop --drivers amd --mirrors Poland
 # =============================================================================
 
 set -euo pipefail
 
-ARCH_INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$ARCH_INSTALL_DIR"
-STEPS_DIR="$ARCH_INSTALL_DIR/steps"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+STEPS_DIR="$ROOT_DIR/steps"
 
 source "$ROOT_DIR/scripts/main.sh"
 
 require_non_root
 sudo_keep_alive
-
-# --- Argument parsing --------------------------------------------------------
-
-DEVICE=""
-DRIVERS=""
-
-while [[ $# -gt 0 ]]; do
-    case "$1" in
-        --device)   DEVICE="$2";  shift 2 ;;
-        --drivers)  DRIVERS="$2"; shift 2 ;;
-        *) die "Unknown argument: $1" ;;
-    esac
-done
-
-# --- Interactive selection ---------------------------------------------------
 
 banner "$BLUE" << 'EOF'
    ___           __           __    _ __      _          __       ____       
@@ -39,14 +23,34 @@ banner "$BLUE" << 'EOF'
 /_/ |_/_/  \__/_//_/       /_/\_\/_/\__/   /_/_//_/___/\__/\_,_/_/_/\__/_/   
 EOF
 
+# --- Argument parsing --------------------------------------------------------
+
+DEVICE=""
+DRIVERS=""
+MIRROR_COUNTRY=""
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --device)   DEVICE="$2";  shift 2 ;;
+        --drivers)  DRIVERS="$2"; shift 2 ;;
+        --mirrors)  MIRROR_COUNTRY="$2"; shift 2 ;;
+        *) die "Unknown argument: $1" ;;
+    esac
+done
+
+# --- Interactive selection ---------------------------------------------------
+
 [[ -z "$DEVICE" ]]  && DEVICE=$(ask  "Device type:"  "desktop" "laptop")
-[[ -z "$DRIVERS" ]] && DRIVERS=$(ask "GPU drivers:"  "amd" "nvidia" "amd-nvidia" "none")
+[[ -z "$DRIVERS" ]] && DRIVERS=$(ask "GPU drivers:"  "amd" "nvidia" "amd-nvidia" "intel-nvidia" "none")
 
 # --- Summary -----------------------------------------------------------------
 
 header "Installation summary"
 echo -e "  Device:  ${BOLD}$DEVICE${NC}"
 echo -e "  Drivers: ${BOLD}$DRIVERS${NC}"
+if [[ -n "$MIRROR_COUNTRY" ]]; then
+    echo -e "  Mirrors: ${BOLD}$MIRROR_COUNTRY${NC}"
+fi
 echo ""
 read -rp "Proceed? [y/N]: " confirm
 [[ "$confirm" =~ ^[Yy]$ ]] || { log "Aborted."; exit 0; }
@@ -56,6 +60,7 @@ read -rp "Proceed? [y/N]: " confirm
 export ROOT_DIR
 export DEVICE
 export DRIVERS
+export MIRROR_COUNTRY
 
 # --- Run steps ---------------------------------------------------------------
 
@@ -73,10 +78,10 @@ run_step() {
     bash "$script"
 }
 
-run_step "01-system-init"
-run_step "02-hardware"
-run_step "03-drivers"
-run_step "04-postinstall"
+run_step "system-init"
+run_step "hardware"
+run_step "drivers"
+run_step "post-install"
 
 
 # --- Done --------------------------------------------------------------------
